@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="html5-qrcode.min.js"></script>
+</head>
+
+<body>
+    <center><div style="width: 500px" id="reader"></div></center>
+    <p id="results">
+
+    </p>
+    <script>
+        const Results = [];
+        //-------------------- Initialize QR code reader --------------------
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", { fps: 10, qrbox: 250 });
+
+        function play() {
+            var beepsound = new Audio(
+                'Barcode-scanner-beep-sound.mp3');
+            beepsound.play();
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            //Check for Duplicate
+            if (Results.includes(decodedText)) {
+                return;
+            }
+            Results.push(decodedText);
+            play();
+            document.getElementById("results").innerHTML += decodedText + '<br>';
+
+            // console.log(`Scan result: ${decodedText}`, decodedResult);
+            // html5QrcodeScanner.clear();
+        }
+        html5QrcodeScanner.render(onScanSuccess);
+
+    </script>
+
+</body>
+
+</html>
